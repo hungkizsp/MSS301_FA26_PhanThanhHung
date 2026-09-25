@@ -1,0 +1,288 @@
+{
+	"info": {
+		"_postman_id": "b4c5d6e7-2345-5678-9abc-def012345678",
+		"name": "Inventory Service Collection",
+		"description": "Postman collection for Inventory Service API testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Check Stock - In Stock",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{inventory_base_url}}/api/inventory?skuCode=iphone_15&quantity=100",
+					"host": [
+						"{{inventory_base_url}}"
+					],
+					"path": [
+						"api",
+						"inventory"
+					],
+					"query": [
+						{
+							"key": "skuCode",
+							"value": "iphone_15"
+						},
+						{
+							"key": "quantity",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. Check Stock - Out of Stock",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{inventory_base_url}}/api/inventory?skuCode=iphone_15&quantity=200",
+					"host": [
+						"{{inventory_base_url}}"
+					],
+					"path": [
+						"api",
+						"inventory"
+					],
+					"query": [
+						{
+							"key": "skuCode",
+							"value": "iphone_15"
+						},
+						{
+							"key": "quantity",
+							"value": "200"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. Check Stock - Boundary Equal",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{inventory_base_url}}/api/inventory?skuCode=pixel_8&quantity=100",
+					"host": [
+						"{{inventory_base_url}}"
+					],
+					"path": [
+						"api",
+						"inventory"
+					],
+					"query": [
+						{
+							"key": "skuCode",
+							"value": "pixel_8"
+						},
+						{
+							"key": "quantity",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. Check Stock - Boundary Exceeded",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{inventory_base_url}}/api/inventory?skuCode=pixel_8&quantity=101",
+					"host": [
+						"{{inventory_base_url}}"
+					],
+					"path": [
+						"api",
+						"inventory"
+					],
+					"query": [
+						{
+							"key": "skuCode",
+							"value": "pixel_8"
+						},
+						{
+							"key": "quantity",
+							"value": "101"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. Check Stock - Non-existent SKU",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{inventory_base_url}}/api/inventory?skuCode=not_exist_sku&quantity=1",
+					"host": [
+						"{{inventory_base_url}}"
+					],
+					"path": [
+						"api",
+						"inventory"
+					],
+					"query": [
+						{
+							"key": "skuCode",
+							"value": "not_exist_sku"
+						},
+						{
+							"key": "quantity",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Check Stock - Missing Quantity",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{inventory_base_url}}/api/inventory?skuCode=iphone_15",
+					"host": [
+						"{{inventory_base_url}}"
+					],
+					"path": [
+						"api",
+						"inventory"
+					],
+					"query": [
+						{
+							"key": "skuCode",
+							"value": "iphone_15"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7. Check Stock - Missing SkuCode",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{inventory_base_url}}/api/inventory?quantity=10",
+					"host": [
+						"{{inventory_base_url}}"
+					],
+					"path": [
+						"api",
+						"inventory"
+					],
+					"query": [
+						{
+							"key": "quantity",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8. Check Stock - Invalid Quantity Type",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{inventory_base_url}}/api/inventory?skuCode=iphone_15&quantity=abc",
+					"host": [
+						"{{inventory_base_url}}"
+					],
+					"path": [
+						"api",
+						"inventory"
+					],
+					"query": [
+						{
+							"key": "skuCode",
+							"value": "iphone_15"
+						},
+						{
+							"key": "quantity",
+							"value": "abc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9. Check Stock - Negative Quantity",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{inventory_base_url}}/api/inventory?skuCode=iphone_15&quantity=-5",
+					"host": [
+						"{{inventory_base_url}}"
+					],
+					"path": [
+						"api",
+						"inventory"
+					],
+					"query": [
+						{
+							"key": "skuCode",
+							"value": "iphone_15"
+						},
+						{
+							"key": "quantity",
+							"value": "-5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10. Check Stock - Invalid Method (POST)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{inventory_base_url}}/api/inventory?skuCode=iphone_15&quantity=1",
+					"host": [
+						"{{inventory_base_url}}"
+					],
+					"path": [
+						"api",
+						"inventory"
+					],
+					"query": [
+						{
+							"key": "skuCode",
+							"value": "iphone_15"
+						},
+						{
+							"key": "quantity",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "inventory_base_url",
+			"value": "http://localhost:8082"
+		}
+	]
+}

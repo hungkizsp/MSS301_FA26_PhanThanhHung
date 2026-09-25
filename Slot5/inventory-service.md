@@ -7,17 +7,17 @@
 
 ## 0. Checklist tổng quan
 
-- [ ] Tạo project Spring Boot tại start.spring.io
-- [ ] Cập nhật `init.sql` để thêm database `inventory_service` (dùng chung MySQL container với order-service)
-- [ ] Cấu hình `application.properties`
-- [ ] Viết Flyway migration `V1__init.sql` và `V2__add_inventory.sql`
-- [ ] Tạo Model `Inventory`
-- [ ] Tạo Repository `InventoryRepository`
-- [ ] Tạo Service `InventoryService`
-- [ ] Tạo Controller `InventoryController`
-- [ ] Test thủ công bằng Postman
-- [ ] Viết Integration Test (TestContainers + RestAssured)
-- [ ] Chạy `mvn test` thành công
+- [x] Tạo project Spring Boot tại start.spring.io
+- [x] Cập nhật `init.sql` để thêm database `inventory_service` (dùng chung MySQL container với order-service)
+- [x] Cấu hình `application.properties`
+- [x] Viết Flyway migration `V1__init.sql` và `V2__add_inventory.sql`
+- [x] Tạo Model `Inventory`
+- [x] Tạo Repository `InventoryRepository`
+- [x] Tạo Service `InventoryService`
+- [x] Tạo Controller `InventoryController`
+- [x] Test thủ công bằng Postman
+- [x] Viết Integration Test (TestContainers + RestAssured)
+- [x] Chạy `mvn test` thành công
 
 ---
 
@@ -37,9 +37,9 @@ Dependencies (giống Order Service):
 - `Testcontainers`
 
 ### TODO
-- [ ] Generate project với Group = `com.fudn`, Artifact = `inventory-service`
-- [ ] Mở project trong IDE
-- [ ] `mvn clean verify` chạy không lỗi
+- [x] Generate project với Group = `com.fudn`, Artifact = `inventory-service`
+- [x] Mở project trong IDE
+- [x] `mvn clean verify` chạy không lỗi
 
 ---
 
@@ -57,9 +57,9 @@ CREATE DATABASE IF NOT EXISTS inventory_service;
 ⚠️ Nếu container `mysql` đã chạy trước đó với volume dữ liệu cũ, `init.sql` sẽ **không** chạy lại tự động. Cần xóa volume cũ (`docker/mysql/data`) rồi `docker compose up -d mysql` lại, hoặc tạo database thủ công bằng lệnh SQL trực tiếp.
 
 ### TODO
-- [ ] Cập nhật `mysql/init.sql` với 2 dòng `CREATE DATABASE`
-- [ ] Nếu cần: reset volume MySQL và chạy lại container
-- [ ] Xác nhận cả 2 database `order_service` và `inventory_service` tồn tại
+- [x] Cập nhật `mysql/init.sql` với 2 dòng `CREATE DATABASE`
+- [x] Nếu cần: reset volume MySQL và chạy lại container
+- [x] Xác nhận cả 2 database `order_service` và `inventory_service` tồn tại
 
 ---
 
@@ -75,9 +75,9 @@ server.port=8082
 ```
 
 ### TODO
-- [ ] Thêm cấu hình datasource trỏ tới `inventory_service`
-- [ ] `spring.jpa.hibernate.ddl-auto=none`
-- [ ] `server.port=8082`
+- [x] Thêm cấu hình datasource trỏ tới `inventory_service`
+- [x] `spring.jpa.hibernate.ddl-auto=none`
+- [x] `server.port=8082`
 
 ---
 
@@ -109,9 +109,9 @@ VALUES (100, 'iphone_15'),
 > `Successfully applied 2 migrations to schema inventory_service, now at version v2`
 
 ### TODO
-- [ ] Tạo `V1__init.sql` (bảng `t_inventory`)
-- [ ] Tạo `V2__add_inventory.sql` (dữ liệu mẫu 4 SKU)
-- [ ] Khởi động app, xác nhận log Flyway apply 2 migration thành công
+- [x] Tạo `V1__init.sql` (bảng `t_inventory`)
+- [x] Tạo `V2__add_inventory.sql` (dữ liệu mẫu 4 SKU)
+- [x] Khởi động app, xác nhận log Flyway apply 2 migration thành công
 
 ---
 
@@ -145,8 +145,8 @@ public class Inventory {
 ```
 
 ### TODO
-- [ ] Tạo package `com.fudn.inventoryservice.model`
-- [ ] Tạo entity `Inventory` ánh xạ bảng `t_inventory`
+- [x] Tạo package `com.fudn.inventoryservice.model`
+- [x] Tạo entity `Inventory` ánh xạ bảng `t_inventory`
 
 ---
 
@@ -169,8 +169,8 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
 ```
 
 ### TODO
-- [ ] Tạo interface `InventoryRepository`
-- [ ] Method `existsBySkuCodeAndQuantityIsGreaterThanEqual` đặt đúng tên theo convention Spring Data
+- [x] Tạo interface `InventoryRepository`
+- [x] Method `existsBySkuCodeAndQuantityIsGreaterThanEqual` đặt đúng tên theo convention Spring Data
 
 ---
 
@@ -200,8 +200,8 @@ public class InventoryService {
 ```
 
 ### TODO
-- [ ] Tạo class `InventoryService` (`isInStock`)
-- [ ] Đánh dấu `@Transactional(readOnly = true)` cho method chỉ đọc
+- [x] Tạo class `InventoryService` (`isInStock`)
+- [x] Đánh dấu `@Transactional(readOnly = true)` cho method chỉ đọc
 
 ---
 
@@ -236,8 +236,8 @@ public class InventoryController {
 ```
 
 ### TODO
-- [ ] Tạo class `InventoryController`
-- [ ] Endpoint `GET /api/inventory?skuCode=...&quantity=...` → 200, trả về `boolean`
+- [x] Tạo class `InventoryController`
+- [x] Endpoint `GET /api/inventory?skuCode=...&quantity=...` → 200, trả về `boolean`
 
 ---
 
@@ -254,9 +254,9 @@ GET http://localhost:8082/api/inventory?skuCode=iphone_15&quantity=200
 → Kỳ vọng: `false` (chỉ có 100 cái, không đủ 200)
 
 ### TODO / Checklist Postman
-- [ ] `mvn spring-boot:run` chạy service thành công trên port 8082
-- [ ] GET với quantity=100 trả về `true`
-- [ ] GET với quantity=200 trả về `false`
+- [x] `mvn spring-boot:run` chạy service thành công trên port 8082
+- [x] GET với quantity=100 trả về `true`
+- [x] GET với quantity=200 trả về `false`
 
 ---
 
@@ -326,21 +326,21 @@ mvn test
 ```
 
 ### TODO
-- [ ] Tạo `InventoryServiceApplicationTests` (package `com.fudn.inventoryservice`)
-- [ ] Docker Desktop đang chạy (Testcontainers cần Docker)
-- [ ] `mvn test` PASS cả 2 assertion (true / false)
+- [x] Tạo `InventoryServiceApplicationTests` (package `com.fudn.inventoryservice`)
+- [x] Docker Desktop đang chạy (Testcontainers cần Docker)
+- [x] `mvn test` PASS cả 2 assertion (true / false)
 
 ---
 
 ## ✅ Checklist hoàn thành Inventory Service
 
-- [ ] Cấu trúc thư mục đúng package `com.fudn.inventoryservice.*`
-- [ ] `init.sql` đã cập nhật, database `inventory_service` tồn tại trong container MySQL chung
-- [ ] `application.properties` trỏ đúng datasource, port 8082
-- [ ] Flyway migration `V1__init.sql` + `V2__add_inventory.sql` chạy thành công, có 4 SKU mẫu
-- [ ] `Inventory`, `InventoryRepository`, `InventoryService`, `InventoryController` đã tạo đủ
-- [ ] Postman test GET `/api/inventory` trả về đúng `true`/`false`
-- [ ] `mvn test` chạy Integration Test PASS
+- [x] Cấu trúc thư mục đúng package `com.fudn.inventoryservice.*`
+- [x] `init.sql` đã cập nhật, database `inventory_service` tồn tại trong container MySQL chung
+- [x] `application.properties` trỏ đúng datasource, port 8082
+- [x] Flyway migration `V1__init.sql` + `V2__add_inventory.sql` chạy thành công, có 4 SKU mẫu
+- [x] `Inventory`, `InventoryRepository`, `InventoryService`, `InventoryController` đã tạo đủ
+- [x] Postman test GET `/api/inventory` trả về đúng `true`/`false`
+- [x] `mvn test` chạy Integration Test PASS
 
 ---
 
