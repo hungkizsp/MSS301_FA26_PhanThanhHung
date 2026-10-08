@@ -1,0 +1,15 @@
+$kind: http-request
+name: '7.4 Cancel Booking - Not Owner Forbidden'
+order: 4000
+method: PUT
+url: '{{gateway}}/api/bookings/{{booking2Id}}/cancel'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{customerToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 403", () => pm.response.to.have.status(403));

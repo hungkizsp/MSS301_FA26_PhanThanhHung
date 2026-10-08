@@ -1,0 +1,18 @@
+$kind: http-request
+name: '2.4 Login New Customer'
+order: 4000
+method: POST
+url: '{{gateway}}/api/auth/login'
+body:
+  type: json
+  content: |-
+    {
+      "email": "{{newEmail}}",
+      "password": "123456"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));
+      pm.environment.set("customer2Token", pm.response.json().accessToken);

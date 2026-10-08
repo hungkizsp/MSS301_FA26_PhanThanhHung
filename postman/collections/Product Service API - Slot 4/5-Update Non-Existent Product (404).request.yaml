@@ -1,0 +1,23 @@
+$kind: http-request
+name: '5. Update Non-Existent Product (404)'
+order: 5000
+method: PUT
+url: '{{baseUrl}}/api/products/non-existent-id-12345'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "Non Existing",
+      "description": "Ghost",
+      "price": 1.00
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 404 Not Found", function () {
+          pm.response.to.have.status(404);
+      });

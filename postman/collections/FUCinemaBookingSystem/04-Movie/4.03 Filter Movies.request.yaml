@@ -1,0 +1,14 @@
+$kind: http-request
+name: '4.3 Filter Movies'
+order: 3000
+method: GET
+url: '{{gateway}}/api/movies?status=NOW_SHOWING&genreId={{seedGenreScifiId}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));
+      pm.response.json().forEach(m => pm.test(`Movie ${m.movieId} matches filter`, () => {
+          pm.expect(m.movieStatus).to.eql("NOW_SHOWING");
+          pm.expect(m.genreId).to.eql(pm.environment.get("seedGenreScifiId"));
+      }));

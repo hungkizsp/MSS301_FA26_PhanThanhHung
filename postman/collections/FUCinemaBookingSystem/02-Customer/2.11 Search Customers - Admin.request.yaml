@@ -1,0 +1,18 @@
+$kind: http-request
+name: '2.11 Search Customers - Admin'
+order: 11000
+method: GET
+url: '{{gateway}}/api/customers?keyword=gmail'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));
+      const list = pm.response.json();
+      pm.test("At least 3 customers", () => pm.expect(list.length).to.be.at.least(3));
+      pm.test("No password in list", () => list.forEach(c => pm.expect(c).to.not.have.property("password")));

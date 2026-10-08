@@ -1,0 +1,15 @@
+$kind: http-request
+name: '8.3 Get Revenue Report - Customer Forbidden'
+order: 3000
+method: GET
+url: '{{gateway}}/api/bookings/report?startDate={{today}}&endDate={{today}}'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{customerToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 403", () => pm.response.to.have.status(403));

@@ -1,0 +1,20 @@
+$kind: http-request
+name: '8.5 Get Revenue Report - Zero Revenue Period'
+order: 5000
+method: GET
+url: '{{gateway}}/api/bookings/report?startDate=2020-01-01&endDate=2020-01-31'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));
+      const r = pm.response.json();
+      pm.test("Zero revenue period", () => {
+          pm.expect(r.totalBookings).to.eql(0);
+          pm.expect(Number(r.totalRevenue)).to.eql(0);
+      });

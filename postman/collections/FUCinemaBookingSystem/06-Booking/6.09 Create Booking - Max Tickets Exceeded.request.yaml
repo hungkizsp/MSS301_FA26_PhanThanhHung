@@ -1,0 +1,27 @@
+$kind: http-request
+name: '6.9 Create Booking - Max Tickets Exceeded'
+order: 9000
+method: POST
+url: '{{gateway}}/api/bookings'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{customer2Token}}'
+body:
+  type: json
+  content: |-
+    {
+      "items": [
+        {"showtimeId": "{{showtimeId}}", "seatCode": "A1"}, {"showtimeId": "{{showtimeId}}", "seatCode": "A2"},
+        {"showtimeId": "{{showtimeId}}", "seatCode": "A3"}, {"showtimeId": "{{showtimeId}}", "seatCode": "A4"},
+        {"showtimeId": "{{showtimeId}}", "seatCode": "A5"}, {"showtimeId": "{{showtimeId}}", "seatCode": "A6"},
+        {"showtimeId": "{{showtimeId}}", "seatCode": "A7"}, {"showtimeId": "{{showtimeId}}", "seatCode": "A8"},
+        {"showtimeId": "{{showtimeId}}", "seatCode": "B1"}
+      ]
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 400", () => pm.response.to.have.status(400));

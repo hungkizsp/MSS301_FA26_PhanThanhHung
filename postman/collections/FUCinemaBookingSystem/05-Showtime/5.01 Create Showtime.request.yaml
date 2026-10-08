@@ -1,0 +1,41 @@
+$kind: http-request
+name: '5.1 Create Showtime'
+order: 1000
+method: POST
+url: '{{gateway}}/api/showtimes'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+body:
+  type: json
+  content: |-
+    {
+      "movieId": "{{movieId}}",
+      "roomId": "{{roomId}}",
+      "startTime": "{{futureStart}}",
+      "ticketPrice": 95000
+    }
+scripts:
+  - type: beforeRequest
+    language: text/javascript
+    code: |-
+      const pad = n => String(n).padStart(2, "0");
+      const d = new Date();
+      d.setDate(d.getDate() + 7);
+      const day = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+      pm.environment.set("futureDate", day);
+      pm.environment.set("futureStart", `${day}T19:00:00`);
+      pm.environment.set("futureStartOverlap", `${day}T20:00:00`);
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 201", () => pm.response.to.have.status(201));
+      const s = pm.response.json();
+      pm.test("endTime = startTime + duration (120')", () => {
+          const minutes = (new Date(s.endTime) - new Date(s.startTime)) / 60000;
+          pm.expect(minutes).to.eql(120);
+      });
+      pm.test("Status SCHEDULED", () => pm.expect(s.showtimeStatus).to.eql("SCHEDULED"));
+      pm.environment.set("showtimeId", s.showtimeId);

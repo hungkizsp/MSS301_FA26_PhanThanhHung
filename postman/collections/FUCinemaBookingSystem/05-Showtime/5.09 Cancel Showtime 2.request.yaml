@@ -1,0 +1,15 @@
+$kind: http-request
+name: '5.9 Cancel Showtime 2'
+order: 9000
+method: DELETE
+url: '{{gateway}}/api/showtimes/{{showtime2Id}}'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 204", () => pm.response.to.have.status(204));

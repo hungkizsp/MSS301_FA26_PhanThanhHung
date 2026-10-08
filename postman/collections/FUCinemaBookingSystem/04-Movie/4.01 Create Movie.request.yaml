@@ -1,0 +1,33 @@
+$kind: http-request
+name: '4.1 Create Movie'
+order: 1000
+method: POST
+url: '{{gateway}}/api/movies'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+body:
+  type: json
+  content: |-
+    {
+      "title": "Hành Trình Phương Nam",
+      "description": "Phim tài liệu về miền Tây sông nước.",
+      "director": "Lê Hoàng",
+      "durationMinutes": 120,
+      "language": "Tiếng Việt",
+      "ageRating": "P",
+      "releaseDate": "2026-10-01",
+      "genreId": "{{genreId}}",
+      "movieStatus": "NOW_SHOWING"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 201", () => pm.response.to.have.status(201));
+      const m = pm.response.json();
+      pm.test("Genre mapped", () => pm.expect(m.genreId).to.eql(pm.environment.get("genreId")));
+      pm.test("movieId is ObjectId", () => pm.expect(m.movieId).to.match(/^[0-9a-f]{24}$/));
+      pm.environment.set("movieId", m.movieId);

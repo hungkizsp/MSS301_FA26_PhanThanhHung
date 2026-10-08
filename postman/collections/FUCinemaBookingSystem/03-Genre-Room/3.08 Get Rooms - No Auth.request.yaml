@@ -1,0 +1,10 @@
+$kind: http-request
+name: '3.8 Get Rooms - No Auth'
+order: 8000
+method: GET
+url: '{{gateway}}/api/rooms'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 401", () => pm.response.to.have.status(401));

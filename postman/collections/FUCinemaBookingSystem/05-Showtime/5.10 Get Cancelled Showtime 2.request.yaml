@@ -1,0 +1,11 @@
+$kind: http-request
+name: '5.10 Get Cancelled Showtime 2'
+order: 10000
+method: GET
+url: '{{gateway}}/api/showtimes/{{showtime2Id}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));
+      pm.test("showtimeStatus = CANCELLED", () => pm.expect(pm.response.json().showtimeStatus).to.eql("CANCELLED"));

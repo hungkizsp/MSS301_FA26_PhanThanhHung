@@ -1,0 +1,24 @@
+$kind: http-request
+name: '7.7 Create Booking 3 - Rebook Seat A1'
+order: 7000
+method: POST
+url: '{{gateway}}/api/bookings'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{customerToken}}'
+body:
+  type: json
+  content: |-
+    {
+      "items": [
+        {"showtimeId": "{{showtimeId}}", "seatCode": "A1"}
+      ]
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Seat A1 can be re-booked after cancel", () => pm.response.to.have.status(201));
+      pm.environment.set("booking3Id", pm.response.json().bookingId);

@@ -1,0 +1,15 @@
+$kind: http-request
+name: '1.7 Get Profile - Invalid Token'
+order: 7000
+method: GET
+url: '{{gateway}}/api/customers/me'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: abc.def.ghi
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 401", () => pm.response.to.have.status(401));

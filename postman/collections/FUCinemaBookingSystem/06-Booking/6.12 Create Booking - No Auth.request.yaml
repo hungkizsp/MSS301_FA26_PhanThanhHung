@@ -1,0 +1,18 @@
+$kind: http-request
+name: '6.12 Create Booking - No Auth'
+order: 12000
+method: POST
+url: '{{gateway}}/api/bookings'
+body:
+  type: json
+  content: |-
+    {
+      "items": [
+        {"showtimeId": "{{showtimeId}}", "seatCode": "A1"}
+      ]
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 401", () => pm.response.to.have.status(401));

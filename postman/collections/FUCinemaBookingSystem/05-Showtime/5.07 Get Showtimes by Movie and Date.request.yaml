@@ -1,0 +1,18 @@
+$kind: http-request
+name: '5.7 Get Showtimes by Movie and Date'
+order: 7000
+method: GET
+url: '{{gateway}}/api/showtimes?movieId={{movieId}}&date={{futureDate}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));
+      const list = pm.response.json();
+      pm.test("Filter by movie & date", () => {
+          pm.expect(list.length).to.be.at.least(1);
+          list.forEach(s => {
+              pm.expect(s.movieId).to.eql(pm.environment.get("movieId"));
+              pm.expect(s.startTime.substring(0, 10)).to.eql(pm.environment.get("futureDate"));
+          });
+      });

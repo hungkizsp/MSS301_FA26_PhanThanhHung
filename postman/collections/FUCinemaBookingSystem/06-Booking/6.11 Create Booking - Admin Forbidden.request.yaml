@@ -1,0 +1,23 @@
+$kind: http-request
+name: '6.11 Create Booking - Admin Forbidden'
+order: 11000
+method: POST
+url: '{{gateway}}/api/bookings'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+body:
+  type: json
+  content: |-
+    {
+      "items": [
+        {"showtimeId": "{{showtimeId}}", "seatCode": "A1"}
+      ]
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 403", () => pm.response.to.have.status(403));

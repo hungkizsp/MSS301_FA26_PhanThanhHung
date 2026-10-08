@@ -1,0 +1,31 @@
+$kind: http-request
+name: '2.13 Create Customer - Admin'
+order: 13000
+method: POST
+url: '{{gateway}}/api/customers'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+body:
+  type: json
+  content: |-
+    {
+      "customerName": "Khách hàng do Admin tạo",
+      "telephone": "0911222333",
+      "email": "{{adminEmail2}}",
+      "customerBirthday": "1999-09-09",
+      "customerStatus": "ACTIVE",
+      "password": "123456"
+    }
+scripts:
+  - type: beforeRequest
+    language: text/javascript
+    code: |-
+      pm.environment.set("adminEmail2", `staff${Date.now()}@gmail.com`);
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 201", () => pm.response.to.have.status(201));
+      pm.environment.set("adminCreatedId", pm.response.json().customerId);

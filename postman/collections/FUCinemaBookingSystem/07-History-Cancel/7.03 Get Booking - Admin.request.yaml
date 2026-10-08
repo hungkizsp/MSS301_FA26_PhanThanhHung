@@ -1,0 +1,15 @@
+$kind: http-request
+name: '7.3 Get Booking - Admin'
+order: 3000
+method: GET
+url: '{{gateway}}/api/bookings/{{bookingId}}'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));

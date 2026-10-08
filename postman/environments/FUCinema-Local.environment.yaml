@@ -1,0 +1,54 @@
+name: FUCinema-Local
+values:
+  - key: gateway
+    value: 'http://localhost:9000'
+  - key: adminToken
+    value: ''
+  - key: customerToken
+    value: ''
+  - key: customer2Token
+    value: ''
+  - key: newEmail
+    value: ''
+  - key: newCustomerId
+    value: ''
+  - key: adminCreatedId
+    value: ''
+  - key: genreId
+    value: ''
+  - key: roomId
+    value: ''
+  - key: movieId
+    value: ''
+  - key: futureDate
+    value: ''
+  - key: futureStart
+    value: ''
+  - key: futureStartOverlap
+    value: ''
+  - key: showtimeId
+    value: ''
+  - key: showtime2Id
+    value: ''
+  - key: bookingId
+    value: ''
+  - key: booking2Id
+    value: ''
+  - key: booking3Id
+    value: ''
+  - key: today
+    value: ''
+  - key: notFoundId
+    value: 66f9ffffffffffffffffffff
+  - key: seedGenreActionId
+    value: 66f000000000000000000001
+  - key: seedGenreScifiId
+    value: 66f000000000000000000005
+  - key: seedRoom2Id
+    value: 66f100000000000000000002
+  - key: seedRoomMaintenanceId
+    value: 66f100000000000000000004
+  - key: seedMovieEndedId
+    value: 66f200000000000000000004
+  - key: adminEmail2
+    value: ''

@@ -1,0 +1,26 @@
+name: New Environment
+values:
+  - key: gateway
+    value: ''
+  - key: keycloak
+    value: ''
+  - key: clientId
+    value: ''
+  - key: clientSecret
+    secret: true
+  - key: adminToken
+    value: ''
+  - key: movieId
+    value: ''
+  - key: newEmail
+    value: ''
+  - key: adminEmail2
+    value: ''
+  - key: futureDate
+    value: ''
+  - key: futureStart
+    value: ''
+  - key: futureStartOverlap
+    value: ''
+  - key: today
+    value: ''

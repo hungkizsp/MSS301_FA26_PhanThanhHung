@@ -1,0 +1,32 @@
+$kind: http-request
+name: '1. Create Product (POST)'
+order: 1000
+method: POST
+url: '{{baseUrl}}/api/products'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "iPhone 15",
+      "description": "Apple smartphone",
+      "price": 999.99
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 201 Created", function () {
+          pm.response.to.have.status(201);
+      });
+      pm.test("Response has id and correct fields", function () {
+          var jsonData = pm.response.json();
+          pm.expect(jsonData).to.have.property('id');
+          pm.expect(jsonData.name).to.eql("iPhone 15");
+          pm.expect(jsonData.price).to.eql(999.99);
+          if (jsonData.id) {
+              pm.collectionVariables.set("productId", jsonData.id);
+          }
+      });

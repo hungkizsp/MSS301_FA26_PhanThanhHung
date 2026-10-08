@@ -1,0 +1,28 @@
+$kind: http-request
+name: '2.1 Register Customer'
+order: 1000
+method: POST
+url: '{{gateway}}/api/customers/register'
+body:
+  type: json
+  content: |-
+    {
+      "customerName": "Phạm Thị Dung",
+      "telephone": "0987654321",
+      "email": "{{newEmail}}",
+      "customerBirthday": "2004-03-15",
+      "password": "123456"
+    }
+scripts:
+  - type: beforeRequest
+    language: text/javascript
+    code: |-
+      pm.environment.set("newEmail", `user${Date.now()}@gmail.com`);
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 201", () => pm.response.to.have.status(201));
+      const json = pm.response.json();
+      pm.test("Status ACTIVE", () => pm.expect(json.customerStatus).to.eql("ACTIVE"));
+      pm.test("Password is NOT returned", () => pm.expect(json).to.not.have.property("password"));
+      pm.environment.set("newCustomerId", json.customerId);

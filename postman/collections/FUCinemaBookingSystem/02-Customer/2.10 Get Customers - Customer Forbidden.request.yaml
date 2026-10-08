@@ -1,0 +1,15 @@
+$kind: http-request
+name: '2.10 Get Customers - Customer Forbidden'
+order: 10000
+method: GET
+url: '{{gateway}}/api/customers'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{customerToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 403", () => pm.response.to.have.status(403));

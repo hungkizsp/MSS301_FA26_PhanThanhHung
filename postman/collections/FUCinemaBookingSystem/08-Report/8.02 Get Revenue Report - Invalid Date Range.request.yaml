@@ -1,0 +1,15 @@
+$kind: http-request
+name: '8.2 Get Revenue Report - Invalid Date Range'
+order: 2000
+method: GET
+url: '{{gateway}}/api/bookings/report?startDate=2026-12-31&endDate=2026-01-01'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 400", () => pm.response.to.have.status(400));

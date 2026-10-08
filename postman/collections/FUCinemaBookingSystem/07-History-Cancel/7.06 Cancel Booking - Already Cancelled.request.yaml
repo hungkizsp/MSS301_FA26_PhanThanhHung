@@ -1,0 +1,15 @@
+$kind: http-request
+name: '7.6 Cancel Booking - Already Cancelled'
+order: 6000
+method: PUT
+url: '{{gateway}}/api/bookings/{{booking2Id}}/cancel'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{customer2Token}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 400", () => pm.response.to.have.status(400));

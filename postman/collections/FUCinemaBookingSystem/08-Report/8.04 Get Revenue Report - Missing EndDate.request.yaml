@@ -1,0 +1,15 @@
+$kind: http-request
+name: '8.4 Get Revenue Report - Missing EndDate'
+order: 4000
+method: GET
+url: '{{gateway}}/api/bookings/report?startDate={{today}}'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 400", () => pm.response.to.have.status(400));

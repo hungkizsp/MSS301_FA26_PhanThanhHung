@@ -1,0 +1,24 @@
+$kind: http-request
+name: '5.6 Create Showtime - Past Time'
+order: 6000
+method: POST
+url: '{{gateway}}/api/showtimes'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+body:
+  type: json
+  content: |-
+    {
+      "movieId": "{{movieId}}",
+      "roomId": "{{roomId}}",
+      "startTime": "2020-01-01T10:00:00",
+      "ticketPrice": 95000
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 400", () => pm.response.to.have.status(400));

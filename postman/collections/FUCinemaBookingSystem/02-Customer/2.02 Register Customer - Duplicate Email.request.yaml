@@ -1,0 +1,20 @@
+$kind: http-request
+name: '2.2 Register Customer - Duplicate Email'
+order: 2000
+method: POST
+url: '{{gateway}}/api/customers/register'
+body:
+  type: json
+  content: |-
+    {
+      "customerName": "Phạm Thị Dung",
+      "telephone": "0987654321",
+      "email": "an@gmail.com",
+      "customerBirthday": "2004-03-15",
+      "password": "123456"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 409", () => pm.response.to.have.status(409));

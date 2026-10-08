@@ -1,0 +1,15 @@
+$kind: http-request
+name: '7.2 Get Booking - Not Owner Forbidden'
+order: 2000
+method: GET
+url: '{{gateway}}/api/bookings/{{bookingId}}'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{customer2Token}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 403", () => pm.response.to.have.status(403));

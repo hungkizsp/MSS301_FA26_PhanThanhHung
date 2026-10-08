@@ -1,0 +1,15 @@
+$kind: http-request
+name: '2.17 Get Profile - Admin Forbidden'
+order: 17000
+method: GET
+url: '{{gateway}}/api/customers/me'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 403", () => pm.response.to.have.status(403));

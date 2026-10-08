@@ -1,0 +1,24 @@
+$kind: http-request
+name: '5.2 Create Showtime - Overlap Conflict'
+order: 2000
+method: POST
+url: '{{gateway}}/api/showtimes'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+body:
+  type: json
+  content: |-
+    {
+      "movieId": "{{movieId}}",
+      "roomId": "{{roomId}}",
+      "startTime": "{{futureStartOverlap}}",
+      "ticketPrice": 95000
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 409 - overlap", () => pm.response.to.have.status(409));

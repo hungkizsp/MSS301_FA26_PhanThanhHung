@@ -1,0 +1,28 @@
+$kind: http-request
+name: '2.6 Update My Profile'
+order: 6000
+method: PUT
+url: '{{gateway}}/api/customers/me'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{customerToken}}'
+body:
+  type: json
+  content: |-
+    {
+      "customerName": "Nguyễn Văn An (updated)",
+      "telephone": "0905999999",
+      "customerBirthday": "2002-05-10"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));
+      const json = pm.response.json();
+      pm.test("Profile updated", () => {
+          pm.expect(json.customerName).to.eql("Nguyễn Văn An (updated)");
+          pm.expect(json.telephone).to.eql("0905999999");
+      });

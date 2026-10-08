@@ -1,0 +1,22 @@
+$kind: http-request
+name: '3.5 Update Genre'
+order: 5000
+method: PUT
+url: '{{gateway}}/api/genres/{{genreId}}'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+body:
+  type: json
+  content: |-
+    {
+      "genreName": "Tài liệu {{$timestamp}}",
+      "description": "Đã cập nhật"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));

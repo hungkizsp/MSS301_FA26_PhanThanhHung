@@ -1,0 +1,23 @@
+$kind: http-request
+name: '6.7 Create Booking - Showtime Not Found'
+order: 7000
+method: POST
+url: '{{gateway}}/api/bookings'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{customer2Token}}'
+body:
+  type: json
+  content: |-
+    {
+      "items": [
+        {"showtimeId": "{{notFoundId}}", "seatCode": "A1"}
+      ]
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 404", () => pm.response.to.have.status(404));

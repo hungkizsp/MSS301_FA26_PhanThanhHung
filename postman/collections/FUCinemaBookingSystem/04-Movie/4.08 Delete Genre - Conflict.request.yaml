@@ -1,0 +1,15 @@
+$kind: http-request
+name: '4.8 Delete Genre - Conflict'
+order: 8000
+method: DELETE
+url: '{{gateway}}/api/genres/{{genreId}}'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 409", () => pm.response.to.have.status(409));

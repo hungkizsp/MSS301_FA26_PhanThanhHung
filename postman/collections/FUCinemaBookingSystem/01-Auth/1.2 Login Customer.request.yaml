@@ -1,0 +1,21 @@
+$kind: http-request
+name: '1.2 Login Customer'
+order: 2000
+method: POST
+url: '{{gateway}}/api/auth/login'
+body:
+  type: json
+  content: |-
+    {
+      "email": "an@gmail.com",
+      "password": "123456"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));
+      const json = pm.response.json();
+      pm.test("Role is CUSTOMER", () => pm.expect(json.role).to.eql("CUSTOMER"));
+      pm.test("userId = 1", () => pm.expect(json.userId).to.eql(1));
+      pm.environment.set("customerToken", json.accessToken);

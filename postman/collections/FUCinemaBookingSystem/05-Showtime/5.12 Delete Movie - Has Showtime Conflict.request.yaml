@@ -1,0 +1,15 @@
+$kind: http-request
+name: '5.12 Delete Movie - Has Showtime Conflict'
+order: 12000
+method: DELETE
+url: '{{gateway}}/api/movies/{{movieId}}'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 409", () => pm.response.to.have.status(409));

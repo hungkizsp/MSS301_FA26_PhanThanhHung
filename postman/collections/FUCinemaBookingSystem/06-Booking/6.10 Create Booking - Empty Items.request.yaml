@@ -1,0 +1,21 @@
+$kind: http-request
+name: '6.10 Create Booking - Empty Items'
+order: 10000
+method: POST
+url: '{{gateway}}/api/bookings'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{customer2Token}}'
+body:
+  type: json
+  content: |-
+    {
+      "items": []
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 400", () => pm.response.to.have.status(400));

@@ -1,0 +1,10 @@
+$kind: http-request
+name: '1.6 Get Profile - No Token'
+order: 6000
+method: GET
+url: '{{gateway}}/api/customers/me'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 401", () => pm.response.to.have.status(401));

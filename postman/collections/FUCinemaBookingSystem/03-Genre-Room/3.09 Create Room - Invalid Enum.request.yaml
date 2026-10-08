@@ -1,0 +1,25 @@
+$kind: http-request
+name: '3.9 Create Room - Invalid Enum'
+order: 9000
+method: POST
+url: '{{gateway}}/api/rooms'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+body:
+  type: json
+  content: |-
+    {
+      "roomName": "X",
+      "roomType": "VIP",
+      "seatRows": 0,
+      "seatsPerRow": 8,
+      "roomStatus": "ACTIVE"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 400", () => pm.response.to.have.status(400));

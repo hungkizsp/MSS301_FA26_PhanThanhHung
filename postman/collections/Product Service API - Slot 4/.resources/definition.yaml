@@ -1,0 +1,5 @@
+$kind: collection
+description: Postman Collection for testing Product Service endpoints (CREATE, GET, UPDATE, DELETE, and 404 error cases).
+variables:
+  baseUrl: http://localhost:8080
+  productId: ""

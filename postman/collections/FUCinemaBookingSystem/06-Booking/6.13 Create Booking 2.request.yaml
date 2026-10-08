@@ -1,0 +1,24 @@
+$kind: http-request
+name: '6.13 Create Booking 2'
+order: 13000
+method: POST
+url: '{{gateway}}/api/bookings'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{customer2Token}}'
+body:
+  type: json
+  content: |-
+    {
+      "items": [
+        {"showtimeId": "{{showtimeId}}", "seatCode": "A1"}
+      ]
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 201", () => pm.response.to.have.status(201));
+      pm.environment.set("booking2Id", pm.response.json().bookingId);

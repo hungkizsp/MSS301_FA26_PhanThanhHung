@@ -1,0 +1,12 @@
+$kind: http-request
+name: '4. Delete Product (DELETE)'
+order: 4000
+method: DELETE
+url: '{{baseUrl}}/api/products/{{productId}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 204 No Content", function () {
+          pm.response.to.have.status(204);
+      });

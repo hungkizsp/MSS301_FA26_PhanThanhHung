@@ -1,0 +1,15 @@
+$kind: http-request
+name: '7.10 Get Booking - Not Found'
+order: 10000
+method: GET
+url: '{{gateway}}/api/bookings/99999'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 404", () => pm.response.to.have.status(404));

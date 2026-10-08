@@ -1,0 +1,23 @@
+$kind: http-request
+name: '2.3 Register Customer - Invalid Fields'
+order: 3000
+method: POST
+url: '{{gateway}}/api/customers/register'
+body:
+  type: json
+  content: |-
+    {
+      "customerName": "",
+      "telephone": "123",
+      "email": "x",
+      "customerBirthday": "2099-01-01",
+      "password": "1"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 400", () => pm.response.to.have.status(400));
+      const msg = pm.response.json().message;
+      ["customerName", "telephone", "email", "customerBirthday", "password"]
+          .forEach(f => pm.test(`Message mentions ${f}`, () => pm.expect(msg).to.include(f)));

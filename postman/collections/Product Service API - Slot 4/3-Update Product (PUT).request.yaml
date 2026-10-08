@@ -1,0 +1,29 @@
+$kind: http-request
+name: '3. Update Product (PUT)'
+order: 3000
+method: PUT
+url: '{{baseUrl}}/api/products/{{productId}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "iPhone 15 Pro",
+      "description": "Updated Apple smartphone",
+      "price": 1199.99
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Product updated correctly", function () {
+          var jsonData = pm.response.json();
+          pm.expect(jsonData.name).to.eql("iPhone 15 Pro");
+          pm.expect(jsonData.description).to.eql("Updated Apple smartphone");
+          pm.expect(jsonData.price).to.eql(1199.99);
+      });

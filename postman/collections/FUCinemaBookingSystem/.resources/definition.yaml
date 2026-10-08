@@ -1,0 +1,8 @@
+$kind: collection
+name: FUCinemaBookingSystem
+description: 'Postman Collection for FUCinemaBookingSystem - Assignment 01 MSS301'
+scripts:
+  - type: 'http:afterResponse'
+    language: text/javascript
+    code: |-
+      pm.test("Response time < 3000ms", () => pm.expect(pm.response.responseTime).to.be.below(3000));

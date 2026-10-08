@@ -1,0 +1,36 @@
+$kind: http-request
+name: '6.2 Create Booking 1'
+order: 2000
+method: POST
+url: '{{gateway}}/api/bookings'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{customerToken}}'
+body:
+  type: json
+  content: |-
+    {
+      "items": [
+        {"showtimeId": "{{showtimeId}}", "seatCode": "E5"},
+        {"showtimeId": "{{showtimeId}}", "seatCode": "E6"}
+      ]
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 201", () => pm.response.to.have.status(201));
+      const b = pm.response.json();
+      pm.test("CONFIRMED with 2 tickets", () => {
+          pm.expect(b.bookingStatus).to.eql("CONFIRMED");
+          pm.expect(b.details).to.have.lengthOf(2);
+      });
+      pm.test("totalPrice = sum of ticket prices (server-side)", () => {
+          const sum = b.details.reduce((acc, d) => acc + Number(d.price), 0);
+          pm.expect(Number(b.totalPrice)).to.eql(sum);
+          pm.expect(Number(b.totalPrice)).to.eql(190000);
+      });
+      pm.test("Snapshot movie info", () => pm.expect(b.details[0].movieTitle).to.eql("Hành Trình Phương Nam"));
+      pm.environment.set("bookingId", b.bookingId);

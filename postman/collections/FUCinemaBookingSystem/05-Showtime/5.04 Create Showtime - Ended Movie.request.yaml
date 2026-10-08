@@ -1,0 +1,24 @@
+$kind: http-request
+name: '5.4 Create Showtime - Ended Movie'
+order: 4000
+method: POST
+url: '{{gateway}}/api/showtimes'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+body:
+  type: json
+  content: |-
+    {
+      "movieId": "{{seedMovieEndedId}}",
+      "roomId": "{{roomId}}",
+      "startTime": "{{futureStart}}",
+      "ticketPrice": 95000
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 400", () => pm.response.to.have.status(400));

@@ -1,0 +1,12 @@
+$kind: http-request
+name: '6. Delete Non-Existent Product (404)'
+order: 6000
+method: DELETE
+url: '{{baseUrl}}/api/products/non-existent-id-12345'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 404 Not Found", function () {
+          pm.response.to.have.status(404);
+      });

@@ -1,0 +1,24 @@
+$kind: http-request
+name: '6.3 Create Booking - Seat Taken Conflict'
+order: 3000
+method: POST
+url: '{{gateway}}/api/bookings'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{customer2Token}}'
+body:
+  type: json
+  content: |-
+    {
+      "items": [
+        {"showtimeId": "{{showtimeId}}", "seatCode": "E5"}
+      ]
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 409 - seat taken", () => pm.response.to.have.status(409));
+      pm.test("Message mentions seat", () => pm.expect(pm.response.json().message).to.include("E5"));

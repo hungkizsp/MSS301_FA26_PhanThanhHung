@@ -1,0 +1,15 @@
+$kind: http-request
+name: '5.11 Delete Room - Has Showtime Conflict'
+order: 11000
+method: DELETE
+url: '{{gateway}}/api/rooms/{{roomId}}'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 409", () => pm.response.to.have.status(409));

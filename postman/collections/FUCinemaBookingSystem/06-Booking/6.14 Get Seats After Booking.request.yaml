@@ -1,0 +1,15 @@
+$kind: http-request
+name: '6.14 Get Seats After Booking'
+order: 14000
+method: GET
+url: '{{gateway}}/api/bookings/showtimes/{{showtimeId}}/seats'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));
+      const m = pm.response.json();
+      pm.test("Booked seats updated", () => {
+          pm.expect(m.bookedSeats).to.have.members(["A1", "E5", "E6"]);
+          pm.expect(m.availableSeats).to.eql(37);
+      });

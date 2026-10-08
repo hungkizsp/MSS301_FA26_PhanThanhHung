@@ -1,0 +1,10 @@
+$kind: http-request
+name: '4.2 Search Movies'
+order: 2000
+method: GET
+url: '{{gateway}}/api/movies?keyword=galaxy'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));

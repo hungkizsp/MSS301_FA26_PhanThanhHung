@@ -1,0 +1,44 @@
+$kind: http-request
+name: '8.1 Get Revenue Report'
+order: 1000
+method: GET
+url: '{{gateway}}/api/bookings/report?startDate={{today}}&endDate={{today}}'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+scripts:
+  - type: beforeRequest
+    language: text/javascript
+    code: |-
+      const pad = n => String(n).padStart(2, "0");
+      const d = new Date();
+      pm.environment.set("today", `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`);
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));
+      const r = pm.response.json();
+      
+      pm.test("Summary is consistent", () => {
+          pm.expect(r.totalBookings).to.eql(r.bookings.length);
+          const tickets = r.bookings.reduce((a, b) => a + b.details.length, 0);
+          const revenue = r.bookings.reduce((a, b) => a + Number(b.totalPrice), 0);
+          pm.expect(r.totalTickets).to.eql(tickets);
+          pm.expect(Number(r.totalRevenue)).to.eql(revenue);
+      });
+      pm.test("Only CONFIRMED bookings", () =>
+          r.bookings.forEach(b => pm.expect(b.bookingStatus).to.eql("CONFIRMED")));
+      pm.test("Cancelled booking excluded", () => {
+          const ids = r.bookings.map(b => b.bookingId);
+          pm.expect(ids).to.not.include(Number(pm.environment.get("booking2Id")));
+      });
+      pm.test("bookings sorted by bookingDate DESC", () => {
+          for (let i = 1; i < r.bookings.length; i++)
+              pm.expect(r.bookings[i - 1].bookingDate >= r.bookings[i].bookingDate).to.be.true;
+      });
+      pm.test("revenueByMovie sorted by revenue DESC", () => {
+          for (let i = 1; i < r.revenueByMovie.length; i++)
+              pm.expect(Number(r.revenueByMovie[i - 1].revenue)).to.be.at.least(Number(r.revenueByMovie[i].revenue));
+      });

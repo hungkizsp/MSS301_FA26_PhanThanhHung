@@ -1,0 +1,23 @@
+$kind: http-request
+name: '1.4 Login Customer - INACTIVE'
+order: 4000
+method: POST
+url: '{{gateway}}/api/auth/login'
+body:
+  type: json
+  content: |-
+    {
+      "email": "chi@gmail.com",
+      "password": "123456"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 403", () => pm.response.to.have.status(403));
+
+      const err = pm.response.json();
+      pm.test("Error body format", () => {
+          pm.expect(err).to.have.all.keys("timestamp", "status", "error", "message", "path");
+          pm.expect(err.status).to.eql(pm.response.code);
+      });

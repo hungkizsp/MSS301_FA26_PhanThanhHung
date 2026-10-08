@@ -1,0 +1,15 @@
+$kind: http-request
+name: '2.12 Get Customer - Not Found'
+order: 12000
+method: GET
+url: '{{gateway}}/api/customers/99999'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{adminToken}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 404", () => pm.response.to.have.status(404));

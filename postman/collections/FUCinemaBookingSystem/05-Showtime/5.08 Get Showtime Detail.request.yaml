@@ -1,0 +1,10 @@
+$kind: http-request
+name: '5.8 Get Showtime Detail'
+order: 8000
+method: GET
+url: '{{gateway}}/api/showtimes/{{showtimeId}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));
