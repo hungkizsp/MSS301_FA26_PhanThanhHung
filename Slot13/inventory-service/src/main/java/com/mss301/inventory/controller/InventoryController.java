@@ -5,9 +5,11 @@ import com.mss301.inventory.entity.*;
 import com.mss301.inventory.repository.*;
 import com.mss301.inventory.service.InventoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/inventory")
@@ -37,5 +39,15 @@ public class InventoryController {
     @GetMapping("/reservations")
     public List<Reservation> reservations() {
         return reservationRepository.findAll();
+    }
+
+    /** Reset dữ liệu test: xoá tất cả reservation, khôi phục stock P1=10, P2=5 */
+    @PostMapping("/reset")
+    public ResponseEntity<Map<String, String>> reset() {
+        reservationRepository.deleteAll();
+        productRepository.deleteAll();
+        productRepository.save(new Product("P1", "Laptop", 1000, 10));
+        productRepository.save(new Product("P2", "Mouse", 20, 5));
+        return ResponseEntity.ok(Map.of("status", "RESET_OK", "P1", "10", "P2", "5"));
     }
 }

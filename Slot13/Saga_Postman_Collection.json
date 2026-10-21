@@ -62,6 +62,56 @@
       "name": "0 - Kiểm tra service",
       "item": [
         {
+          "name": "0.0a Reset Inventory (P1=10, P2=5)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{inventoryUrl}}/api/inventory/reset",
+              "host": ["{{inventoryUrl}}"],
+              "path": ["api", "inventory", "reset"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Inventory reset thành công\", () => pm.response.to.have.status(200));",
+                  "const res = pm.response.json();",
+                  "pm.test(\"P1=10, P2=5\", () => { pm.expect(res.P1).to.eql('10'); pm.expect(res.P2).to.eql('5'); });"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "0.0b Reset Payment (C1=5000, C2=100)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{paymentUrl}}/api/payments/reset",
+              "host": ["{{paymentUrl}}"],
+              "path": ["api", "payments", "reset"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Payment reset thành công\", () => pm.response.to.have.status(200));",
+                  "const res = pm.response.json();",
+                  "pm.test(\"C1=5000, C2=100\", () => { pm.expect(res.C1).to.eql('5000'); pm.expect(res.C2).to.eql('100'); });"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
           "name": "0.1 Danh sách sản phẩm (Inventory)",
           "request": {
             "method": "GET",
