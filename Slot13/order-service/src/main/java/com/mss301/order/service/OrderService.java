@@ -37,6 +37,9 @@ public class OrderService {
     public void markFailed(Long orderId, String reason) {
         Order order = orderRepository.findById(orderId).orElseThrow();
         order.setSagaStatus(SagaStatus.FAILED);
+        if (reason != null && reason.length() > 1000) {
+            reason = reason.substring(0, 1000);
+        }
         order.setFailureReason(reason);
     }
 
