@@ -1,0 +1,11 @@
+# <type>(<scope>): <subject>
+#
+# Types: feat | fix | refactor | build | test | docs | chore | perf | style | ci
+# Scopes: ms-account | ms-brand | ms-watch | gateway | docker | postman | config
+# Subject: English, imperative, lowercase, maximum 72 characters, no period.
+#
+# Explain why the change is needed (optional; wrap near 72 characters).
+#
+# Refs: TODO-x.y
+# BREAKING CHANGE: describe incompatible changes when applicable
+

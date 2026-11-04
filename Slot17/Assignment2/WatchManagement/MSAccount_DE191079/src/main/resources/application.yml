@@ -1,0 +1,20 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: ms-account
+  datasource:
+    url: jdbc:sqlserver://${DB_HOST:localhost}:${DB_PORT:1433};databaseName=DBAccount;encrypt=true;trustServerCertificate=true
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:YourStrong@Password123}
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+jwt:
+  secret: ${JWT_SECRET:mss301-watch-management-secret-key-2025-very-long-string}
+  expiration: ${JWT_EXPIRATION:900000}
+  refresh-expiration: ${REFRESH_EXPIRATION:604800000}

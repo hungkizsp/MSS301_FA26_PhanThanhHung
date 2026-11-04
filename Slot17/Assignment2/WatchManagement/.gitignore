@@ -1,0 +1,28 @@
+# Maven / build
+target/
+*.jar
+*.war
+
+# Gradle / build
+.gradle/
+build/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code / Eclipse
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+
